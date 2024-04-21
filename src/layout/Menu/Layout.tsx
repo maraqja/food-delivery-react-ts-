@@ -1,16 +1,10 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
-import { useEffect } from 'react';
+
 import cn from 'classnames';
 
 export function Layout() {
-    const location = useLocation();
-
-    useEffect(() => {
-        console.log(location);
-    }, [location]);
-
     return (
         <div className={styles['layout']}>
             <div className={styles['sidebar']}>
@@ -24,24 +18,29 @@ export function Layout() {
                     <div className={styles['email']}>kaka@kaka.com</div>
                 </div>
                 <div className={styles['menu']}>
-                    <Link
+                    <NavLink
                         to="/"
-                        className={cn(styles['link'], {
-                            [styles['active']]: location.pathname === '/',
-                        })}
+                        className={({ isActive }) =>
+                            cn(styles['link'], {
+                                [styles.active]: isActive,
+                            })
+                        }
                     >
+                        {/* NavLink автоматически присваивает класс active активному элементу (но с учетом того, что используем css модули, то у нас каждый класс будет с цифрами - поэтому используем isActive в classnames) */}
                         <img src="/menu-icon.svg" alt="Иконка меню" />
                         Menu
-                    </Link>
-                    <Link
+                    </NavLink>
+                    <NavLink
                         to="/cart"
-                        className={cn(styles['link'], {
-                            [styles['active']]: location.pathname === '/cart',
-                        })}
+                        className={({ isActive }) =>
+                            cn(styles['link'], {
+                                [styles.active]: isActive,
+                            })
+                        }
                     >
                         <img src="/cart-icon.svg" alt="Иконка корзины" />
                         Cart
-                    </Link>
+                    </NavLink>
                 </div>
                 <Button className={styles['exit']}>
                     <img src="/exit-icon.svg" alt="Иконка выхода" />
