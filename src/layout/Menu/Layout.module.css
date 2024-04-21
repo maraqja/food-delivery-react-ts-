@@ -41,6 +41,14 @@
     color: var(--text-color);
 }
 
+.link:hover {
+    color: var(--primary-color);
+}
+
+.active {
+    color: var(--primary-color);
+}
+
 .email {
     font-family: Open Sans;
     font-size: 14px;
