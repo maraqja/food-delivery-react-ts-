@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
 
@@ -48,7 +48,7 @@ export function Layout() {
                 </Button>
             </div>
 
-            <div>
+            <div className={styles['content']}>
                 {/* Сюда подставляются все children-роуты для пути "/" - т.е. если зашли на /cart, то внутрь подставится компонент Cart*/}
                 <Outlet />
             </div>
