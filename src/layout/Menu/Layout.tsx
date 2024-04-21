@@ -28,7 +28,7 @@ export function Layout() {
                     >
                         {/* NavLink автоматически присваивает класс active активному элементу (но с учетом того, что используем css модули, то у нас каждый класс будет с цифрами - поэтому используем isActive в classnames) */}
                         <img src="/menu-icon.svg" alt="Иконка меню" />
-                        Menu
+                        Меню
                     </NavLink>
                     <NavLink
                         to="/cart"
@@ -39,7 +39,7 @@ export function Layout() {
                         }
                     >
                         <img src="/cart-icon.svg" alt="Иконка корзины" />
-                        Cart
+                        Корзина
                     </NavLink>
                 </div>
                 <Button className={styles['exit']}>
