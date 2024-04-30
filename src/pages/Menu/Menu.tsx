@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import Headling from '../../components/Headling/Headling';
-import ProductCard from '../../components/ProductCard/ProductCard';
 import Search from '../../components/Search/Search';
 import { PREFIX } from '../../helpers/API';
 import { Product } from '../../interfaces/product.interface';
@@ -27,11 +26,11 @@ export function Menu() {
         // }
         try {
             setIsLoading(true);
-            await new Promise<void>((resolve) =>
-                setTimeout(() => {
-                    resolve();
-                }, 2000)
-            );
+            // await new Promise<void>((resolve) =>
+            //     setTimeout(() => {
+            //         resolve();
+            //     }, 2000)
+            // );
             const { data } = await axios.get<Product[]>(`${PREFIX}/products`);
             setProducts(data);
             setIsLoading(false);
@@ -63,3 +62,5 @@ export function Menu() {
         </>
     );
 }
+
+export default Menu;

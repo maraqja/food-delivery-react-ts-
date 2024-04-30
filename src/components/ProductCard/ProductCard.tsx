@@ -27,7 +27,7 @@ function ProductCard(props: ProductCardProps) {
                 </div>
 
                 <div className={styles['footer']}>
-                    <div className={styles['title']}>{props.title}</div>
+                    <div className={styles['title']}>{props.name}</div>
                     <div className={styles['description']}>
                         {props.description}
                     </div>

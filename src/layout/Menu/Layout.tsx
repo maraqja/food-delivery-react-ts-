@@ -42,7 +42,7 @@ export function Layout() {
                         Корзина
                     </NavLink>
                 </div>
-                <Button className={styles['exit']}>
+                <Button className={styles['exit']} appearence="big">
                     <img src="/exit-icon.svg" alt="Иконка выхода" />
                     Выход
                 </Button>
