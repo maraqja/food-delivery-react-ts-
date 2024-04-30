@@ -11,13 +11,18 @@ import axios from 'axios';
 import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
 import { Login } from './pages/Login/Login.tsx';
 import { Register } from './pages/Register/Register.tsx';
+import { RequireAuth } from './helpers/RequireAuth.tsx';
 
 const Menu = lazy(() => import('./pages/Menu/Menu.tsx')); // теперь компонент Menu будет подгружаться только когда нужно
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Layout />,
+        element: (
+            <RequireAuth>
+                <Layout />
+            </RequireAuth>
+        ),
         children: [
             {
                 path: '/',
