@@ -8,6 +8,9 @@ import { Layout } from './layout/Menu/Layout.tsx';
 import { Product } from './components/Product/Product.tsx';
 import { PREFIX } from './helpers/API.ts';
 import axios from 'axios';
+import { AuthLayout } from './layout/Auth/AuthLayout.tsx';
+import { Login } from './pages/Login/Login.tsx';
+import { Register } from './pages/Register/Register.tsx';
 
 const Menu = lazy(() => import('./pages/Menu/Menu.tsx')); // теперь компонент Menu будет подгружаться только когда нужно
 
@@ -49,6 +52,20 @@ const router = createBrowserRouter([
                     // return data;
                 },
                 errorElement: <>Ошибка</>, // если компонент не загрузился через loader (либо если в самом компоненте произойдет ошибка)
+            },
+        ],
+    },
+    {
+        path: '/auth',
+        element: <AuthLayout />,
+        children: [
+            {
+                path: 'login',
+                element: <Login />,
+            },
+            {
+                path: 'register',
+                element: <Register />,
             },
         ],
     },
