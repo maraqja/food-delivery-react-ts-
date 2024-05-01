@@ -3,18 +3,25 @@ import styles from './Layout.module.css';
 import Button from '../../components/Button/Button';
 
 import cn from 'classnames';
-import { useDispatch } from 'react-redux';
-import { AppDispath } from '../../store/store';
-import { userActions } from '../../store/user.slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispath, RootState } from '../../store/store';
+import { getProfile, userActions } from '../../store/user.slice';
+import { useEffect } from 'react';
 
 export function Layout() {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispath>();
+    const profile = useSelector((s: RootState) => s.user.profile);
+
+    useEffect(() => {
+        dispatch(getProfile());
+    }, []);
 
     const logout = () => {
         dispatch(userActions.logout());
         navigate('/auth/login');
     };
+
     return (
         <div className={styles['layout']}>
             <div className={styles['sidebar']}>
@@ -24,8 +31,8 @@ export function Layout() {
                         src="/avatar.png"
                         alt="Аватар пользователя"
                     />
-                    <div className={styles['name']}>Kaka Kaka</div>
-                    <div className={styles['email']}>kaka@kaka.com</div>
+                    <div className={styles['name']}>{profile?.name}</div>
+                    <div className={styles['email']}>{profile?.email}</div>
                 </div>
                 <div className={styles['menu']}>
                     <NavLink
