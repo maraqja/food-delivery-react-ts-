@@ -15,6 +15,7 @@ export interface UserPersistentState {
 export interface UserState {
     jwt: string | null;
     loginErrorMessage?: string;
+    registerErrorMessage?: string;
     profile?: Profile;
 }
 
@@ -43,6 +44,28 @@ export const login = createAsyncThunk(
     }
 ); // переходник для того, чтобы в рамках reducer можно было вызывать (асинхронную функцию как синхронную)
 
+export const register = createAsyncThunk(
+    'user/register',
+    async (params: { email: string; password: string; name: string }) => {
+        try {
+            const { data } = await axios.post<LoginResponse>(
+                `${PREFIX}/auth/register`,
+                {
+                    email: params.email,
+                    password: params.password,
+                    name: params.name,
+                }
+            );
+            return data;
+        } catch (e) {
+            if (e instanceof AxiosError) {
+                throw new Error(e.response?.data.message);
+            }
+            throw e;
+        }
+    }
+);
+
 export const getProfile = createAsyncThunk<Profile, void, { state: RootState }>(
     'user/profile',
     async (_, thunkApi) => {
@@ -66,6 +89,9 @@ export const userSlice = createSlice({
         clearLoginError: (state) => {
             state.loginErrorMessage = undefined;
         },
+        clearRegisterError: (state) => {
+            state.registerErrorMessage = undefined;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(
@@ -78,6 +104,13 @@ export const userSlice = createSlice({
             state.loginErrorMessage = action.error.message;
             // state.loginState = 'rejected';
         });
+        builder.addCase(register.fulfilled, (state, action) => {
+            state.jwt = action.payload.access_token;
+        });
+        builder.addCase(register.rejected, (state, action) => {
+            state.registerErrorMessage = action.error.message;
+        });
+
         builder.addCase(getProfile.fulfilled, (state, action) => {
             state.profile = action.payload;
         });
