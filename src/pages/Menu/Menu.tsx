@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Headling from '../../components/Headling/Headling';
 import Search from '../../components/Search/Search';
 import { PREFIX } from '../../helpers/API';
@@ -11,27 +11,20 @@ export function Menu() {
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>();
+    const [filter, setFilter] = useState<string>();
 
-    const getMenu = async () => {
-        // try {
-        //     const res = await fetch(`${PREFIX}/products`);
-        //     if (!res.ok) {
-        //         return;
-        //     }
-        //     const data = (await res.json()) as Product[];
-        //     setProducts(data);
-        // } catch (e) {
-        //     console.error(e);
-        //     return;
-        // }
+    useEffect(() => {
+        getMenu(filter);
+    }, [filter]);
+
+    const getMenu = async (name?: string) => {
         try {
             setIsLoading(true);
-            // await new Promise<void>((resolve) =>
-            //     setTimeout(() => {
-            //         resolve();
-            //     }, 2000)
-            // );
-            const { data } = await axios.get<Product[]>(`${PREFIX}/products`);
+            const { data } = await axios.get<Product[]>(`${PREFIX}/products`, {
+                params: {
+                    name,
+                },
+            });
             setProducts(data);
             setIsLoading(false);
         } catch (e) {
@@ -45,18 +38,27 @@ export function Menu() {
         }
     };
 
-    useEffect(() => {
-        getMenu();
-    }, []);
+    const updateFilter = (e: ChangeEvent<HTMLInputElement>) => {
+        setFilter(e.target.value);
+    };
+
     return (
         <>
             <div className={styles['head']}>
                 <Headling>Меню</Headling>
-                <Search placeholder="Введите название" />
+                <Search
+                    placeholder="Введите название"
+                    onChange={updateFilter}
+                />
             </div>
             <div>
                 {error && <>{error}</>}
-                {!isLoading && <MenuList products={products} />}
+                {!isLoading && products.length > 0 && (
+                    <MenuList products={products} />
+                )}
+                {!isLoading && products.length === 0 && (
+                    <>Ничего не найдено :c</>
+                )}
                 {isLoading && <>Загрузка...</>}
             </div>
         </>
