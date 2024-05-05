@@ -55,6 +55,9 @@ export const cartSlice = createSlice({
         remove: (state, action: PayloadAction<number>) => {
             state.items = state.items.filter((i) => i.id !== action.payload);
         },
+        clean: (state) => {
+            state.items = [];
+        },
     },
 });
 
