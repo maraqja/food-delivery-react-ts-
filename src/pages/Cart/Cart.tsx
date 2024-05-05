@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import Headling from '../../components/Headling/Headling';
 import { RootState } from '../../store/store';
+import styles from './Cart.module.css';
 import CartItem from '../../components/CartItem/CartItem';
 import { useEffect, useState } from 'react';
 import { Product } from '../../interfaces/product.interface';
@@ -27,11 +28,17 @@ export function Cart() {
 
     return (
         <>
-            <Headling>Корзина</Headling>
+            <Headling className={styles['headling']}>Корзина</Headling>
             {items.reduce<React.ReactNode[]>((acc, i) => {
                 const product = cartProducts.find((p) => p.id === i.id);
                 if (product) {
-                    acc.push(<CartItem count={i.count} {...product} />);
+                    acc.push(
+                        <CartItem
+                            key={product.id}
+                            count={i.count}
+                            {...product}
+                        />
+                    );
                 }
                 return acc;
             }, [])}
